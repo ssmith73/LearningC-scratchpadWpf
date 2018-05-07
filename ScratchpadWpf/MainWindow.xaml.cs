@@ -24,5 +24,17 @@ namespace ScratchpadWpf
         {
             InitializeComponent();
         }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            this.txtBoxLength.Text = "";
+            this.txtBoxLength.Text = ((CheckBox)sender).Content.ToString();
+        }
+
+        private void cmboBoxFinish_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(this.txtBoxNote != null)
+                this.txtBoxNote.Text = ((ComboBox)sender).SelectedValue). + " is selected";
+        }
     }
 }
