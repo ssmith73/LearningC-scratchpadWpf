@@ -18,7 +18,25 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Margin="3" Width="20" Source="Images/drive.png"></Image>
+                                <!--The binding below, it to set a source for an image,
+                                trying to bind to something (by default the header in this case), 
+                                but instead of the header, we want the source of the binding, we 
+                                want it to be relative to this item, we want to find an ancestor, 
+                                which means step up out of the header template, and step
+                                up until a TreeViewItem is found-->
+                                    <!--So after binding, the source will bind to the TreeViewItem directly-->
+                                    <!--Path=Tag below, is a propety of the tree view item, so the source
+                                    becomes a string (Tag), which is the full path, because Tag=fullPath
+                                    in the code behind.-->
+                                    <Image Margin="3" 
+                                           Width="20" 
+                                           
+                                           Source="{Binding 
+                                              RelativeSource={RelativeSource 
+                                              Mode=FindAncestor, 
+                                              AncestorType={x:Type TreeViewItem}},
+                                              Path=Tag,
+                                        Converter={x:Static local:HeaderToImageConverter.Instance}}"></Image>
                                     <TextBlock VerticalAlignment="Center" 
                                                Text="{Binding}"></TextBlock>
                                 </StackPanel>

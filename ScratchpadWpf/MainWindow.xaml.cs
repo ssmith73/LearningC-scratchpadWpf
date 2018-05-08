@@ -14,16 +14,19 @@ namespace ScratchpadWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Constuctor
         public MainWindow()
         {
             InitializeComponent();
         }
-        
-    /// <summary>
-    /// When the application first opens
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+        #endregion
+
+        #region Window Loaded
+        /// <summary>
+        /// When the application first opens
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //Get every logic drive on the machine
@@ -45,7 +48,14 @@ namespace ScratchpadWpf
                 FolderView.Items.Add(item);
             }
         }
+        #endregion
 
+        #region Folder Expanded
+        /// <summary>
+        /// When a folder is expanded, find the folder/files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Folder_Expanded(object sender, RoutedEventArgs e)
         {
             #region Initial Checks
@@ -131,6 +141,9 @@ namespace ScratchpadWpf
 
             #endregion
         }
+        #endregion
+
+        #region Helpers
 
         //Find file or folder name from a full path
         public static string GetFileFolderName(string directoryPath)
@@ -153,6 +166,7 @@ namespace ScratchpadWpf
 
             //return the name after the last backslash
             return directoryPath.Substring(lastIndex + 1);
-        }
+        }       
+        #endregion
     }
 }
