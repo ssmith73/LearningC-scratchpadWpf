@@ -21,6 +21,42 @@ namespace ScratchpadWpf.Directory.Data
         /// <summary>
         /// The name of the directory item
         /// </summary>
-        public string Name { get { return DirectoryStructure.GetFileFolderName(this.FullPath); } }
+        public string Name { get { return this.Type == DirectoryItemType.Drive ? FullPath : 
+                    DirectoryStructure.GetFileFolderName(this.FullPath); } }
+
+        public static List<DirectoryItem> GetDirectoryItems(string fullPath)
+        {
+            
+            //Create empty list
+            var items = new List<DirectoryItem>();
+
+            #region Get Folders
+            // try and get directories from the folder - 
+            //ignoring any issues doing so
+            try
+            {
+                var dirs = System.IO.Directory.GetDirectories(fullPath);
+                if (dirs.Length > 0)
+                    items.AddRange(dirs.Select(dir => new DirectoryItem { FullPath = dir, Type = DirectoryItemType.Folder }));
+            }
+            catch
+            { }
+            #endregion
+
+            #region Get Files
+            // try and get directories from the folder - 
+            //ignoring any issues doing so
+            try
+            {
+                var files = System.IO.Directory.GetFiles(fullPath);
+                if (files.Length > 0)
+                    items.AddRange(files.Select(file => new DirectoryItem { FullPath = file, Type = DirectoryItemType.File }));
+            }
+            catch
+            { }
+            #endregion
+
+
+        }
     }
 }

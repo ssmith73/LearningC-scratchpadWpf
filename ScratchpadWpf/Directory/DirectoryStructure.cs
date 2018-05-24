@@ -1,6 +1,7 @@
 ﻿using ScratchpadWpf.Directory.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,29 +10,19 @@ namespace ScratchpadWpf.Directory
 {
     public static class DirectoryStructure
     {
-        public static List<DirectoryItem> GetLogicalDrives();
-        #region Window Loaded
-            //Get every logic drive on the machine
-        foreach (var drive in system.io.Directory.GetLogicalDrives())
+   
+        /// <summary>
+        /// Gets all logical drives on the computer
+        /// </summary>
+        public static List<DirectoryItem> GetLogicalDrives()
         {
-            //Create a new item for it
-            var item = new TreeViewItem
-            {
-                //Set the header and path
-                Header = drive,
-                Tag = drive
-            };
-            //add a dummy item (shows expand as a null item - no text on icon)
-            item.Items.Add(null);
-
-            //listen out for item being expanded
-            item.Expanded += Folder_Expanded;
-            // Add drive to the main tree view
-            FolderView.Items.Add(item);
+            return System.IO.Directory.GetLogicalDrives().
+                 Select(drive => new DirectoryItem { FullPath = drive, Type = DirectoryItemType.Drive }).ToList();
         }
-        #endregion
 
-        #region Helpers
+  
+
+        
 
         //Find file or folder name from a full path
         public static string GetFileFolderName(string directoryPath)
@@ -55,6 +46,5 @@ namespace ScratchpadWpf.Directory
             //return the name after the last backslash
             return directoryPath.Substring(lastIndex + 1);
         }       
-        #endregion
     }
 }
